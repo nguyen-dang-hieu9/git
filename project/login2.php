@@ -1,0 +1,80 @@
+<?php
+    $host="localhost";
+    $user="root";
+    $password="";
+    $db="user";
+    session_start();    
+    $data=mysqli_connect($host,$user,$password,$db);
+    if($data===false){
+        die("connection error");
+    }
+
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+        $username=$_POST['username']; 
+        $password=$_POST['password'];
+        
+
+        $sql="select * from fl4g where flag_name='".$username."' AND flag_value='".$password."'  ";
+        //echo "SQL statement = ".$sql."<br>";
+        $result=mysqli_query($data,$sql);
+             
+        // if($row['usertype']=="user"){
+        //     $_SESSION['username']=$username;
+        //     header("location:userhome.php");
+        // }
+        // elseif($row['usertype']=="admin"){
+        //     $_SESSION['username']=$username;
+        //     header("location:adminhome.php");
+        // }
+        // else{
+        //     echo "user or password incorrect";
+        // }
+        if($result->num_rows>0){
+            while($row=$result->fetch_assoc()){
+                echo $row['flag_name']."   ".$row['flag_value'];
+            }
+        }
+        else{
+            echo "0 results";
+        }
+    }
+    
+?>
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+    </head>
+    <body>
+    <center>
+        <h1>Login Form</h1>
+        <br><br><br><br>
+        <div style="background-color: grey; width: 500px;">
+            <br><br>
+            <form action="#" method="POST">
+            <div>
+                <label>username</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div>
+                <label>password</label>
+                <input type="password" name="password" required>
+            </div>
+            <br>
+            <div>
+                <input type="submit" value="Login">
+            </div>
+            </form>
+            <br><br>
+        </div>
+
+        
+    </center>       
+    </body>
+</html>
